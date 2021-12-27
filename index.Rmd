@@ -1,0 +1,81 @@
+---
+title: "Report on COVID-19 Deaths"
+author: "Anastasia Gerrans, Madeleine Lacoste, Cindy Lin, Nhan Nguyen, Joel Renish"
+date: "5/20/2021"
+output: html_document
+---
+
+```{r, include=FALSE}
+# Source in other scripts
+source("scripts/summary_info.R")
+source("scripts/summary_table.R")
+source("scripts/plot_one.R")
+source("scripts/plot_two.R")
+source("scripts/plot_three.R")
+
+library(knitr)
+library(ggplot2)
+library(dplyr)
+library(plotly)
+
+deaths_df <- read.csv("data/AH_Monthly_provisional_counts_of_deaths.csv",
+                      stringsAsFactors = FALSE)
+```
+
+```{r, echo=FALSE}
+summary_info <- get_summary_info(deaths_df)
+```
+
+## Introduction
+
+Our domain of interest for this project is the COVID-19 pandemic. We are interested in analyzing data on COVID-19 because it is extremely relevant to our lives right now. The pandemic has affected all of us in one way or another. Therefore, we want to further examine and learn about the impact that the pandemic has had on our society.
+
+The data set we are using for our project is the ["AH Monthly provisional counts of deaths by age group, sex, and race/ethnicity for select causes of death"](https://data.cdc.gov/NCHS/AH-Monthly-provisional-counts-of-deaths-by-age-gro/65mz-jvh5) data set from the CDC, which provides a breakdown of COVID-19 deaths by different demographic groups (e.g., age group, race/ethnicity). The data was collected by the National Center for Health Statistics using death certificates of US residents from the start of 2019 until now. However, since the pandemic started in 2020, the total recorded COVID death in 2019 was `r summary_info[1]`, and the data set is not yet completed for 2021, we will only analyze the data pertaining to the year 2020. 
+
+## Summary Info
+
+According to the data, the total number of COVID deaths in 2020 was `r summary_info[2]`, which is `r summary_info[3]` percent of the total recorded deaths from all causes in 2020.The month that had the largest number of COVID death was `r summary_info[4]`, with a total number of `r summary_info[5]`. Among all the age groups, population that are `r summary_info[6]` have the highest number of total COVID deaths. In addition, COVID deaths with underlying conditions takes up to `r summary_info[7]` percent of the total COVID deaths. This correspond with the [information provided by CDC](https://www.cdc.gov/dotw/covid-19/index.html), where elders and people with underlying medical conditions have a higher chance of death if getting infected. When we look into groups by race and ethnicity, data shows that `r summary_info[8]` have the highest number of COVID deaths among all the other ethnicity groups, with a number of `r summary_info[9]` and takes up to `r summary_info[10]` percent of the total COVID deaths in 2020. We can further explore the discrepancies of death rate among different groups from perspectives of sex, race/ethnicity and age.
+
+## Summary Table
+
+The table below displays data regarding the general causes of death of various racial/ethnic groups for the year 2020. First, the table displays both the all-cause mortality rate  and the death by natural cause rate (by racial/ethnic group). Additionally, the table also serves to convey the rate of deaths due to COVID-19, demonstrating the racial discrepancies in this rate. The table also displays the death rate when COVID-19 was a multiple cause of death, as well as the death rate when COVID-19 was an underlying cause of death. Overall, the purpose of this data is to convey the general/overall discrepancies among racial and ethnic groups in terms of causes of death, showing us what groups are potentially more prone to certain causes of death and allowing us to possibly think and acknowledge the societal implications of these differences.
+
+```{r echo=FALSE}
+kable(head(summary_table(deaths_df)), align = "c")
+```
+
+## Charts
+
+### Chart 1
+
+```{r echo=FALSE, warning = FALSE}
+plot_one(deaths_df)
+```
+
+The question of interest for this chart was how does the number of Covid deaths vary across age group. I chose to create a scatter plot encoding as it displays length to compare the amount of while also displaying the density at certain amounts of Covid deaths for the age groups. That way we can make observations on general spread trends across the data and spreads within particular age groups.
+
+This chart illustrates that with higher age groups, the number of deaths caused by Covid increases. This can be attributed to the correlation between age and immunity. Younger people tend to have stronger immune systems than older people. Thus with a dangerous illness, those with worse immune systems are less likely to handle symptoms and survive the virus. Though the quantity of people per age group differed, the density and spread of the points per group clearly display the pattern of higher age groups having the highest Covid death rates. 
+
+### Chart 2
+
+Below is a pie chart, which shows the proportions of males vs. females who died due to COVID-19 and the total number of deaths that the proportions represent. We want to be able to answer the question of whether or not the numbers of COVID-19 deaths vary among different sex groups. Therefore, using a pie chart is appropriate because it allows for easy comparison between the two sex groups. 
+
+```{r echo=FALSE, warning = FALSE}
+plot_two(deaths_df)
+```
+
+The pie chart reveals that there were 191,798 male individuals and 157,366 female individuals who died due to COVID-19 in the US in 2020. Approximately 54.9% of those who died due to COVID-19 were male and 45.1% were female. Although the difference between the percentages is not huge, there is certainly still a disproportion that shows that more men died with COVID-19 as an underlying disease than women. Overall, this implies that there may be an association between sex and COVID-19 susceptibility, possibly due to additional factors such as immunity, physiological, or lifestyle differences. 
+
+### Chart 3
+
+```{r echo=FALSE, warning = FALSE}
+chart3(deaths_df)
+```
+
+This chart helps us understand how the deaths due to COVID changed over the
+course of the pandemic, and the effect of that change on the death rate.
+Around April, the death rate spikes and then slowly reduces over the next few
+months. This is most likely due to the start of quarantine. After being in
+quarantine for a few months, the death rate starts to rise again, as shown by
+the bars from October to December, where the quarantine is either no longer
+useful, or no longer being strictly followed.

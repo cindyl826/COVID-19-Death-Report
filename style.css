@@ -1,0 +1,31 @@
+h1 {
+  color: #00008B;
+  font-weight: bold;
+  text-shadow: 2px 2px #6495ED;
+}
+
+h2 {
+  color: #00008B;
+  font-weight: bold;
+}
+
+h3{
+  font-weight: bold;
+  font-style: italic;
+}
+
+h4 {
+  color: maroon;
+}
+
+img {
+  margin: 225px 10px 10px 10px;
+}
+
+body {
+  background-color: FloralWhite;
+}
+
+ul {
+  font-weight: bold;
+}
